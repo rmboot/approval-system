@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% from 'bootstrap/form.html' import render_form %}
+{% block title %}My Apply {{ apply.id }}{% endblock %}
+{% block content%}
+    <div class="jumbotron">
+        <div class="card-header text-center"><h4>{{ apply.name }}</h4></div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card-body">
+                    {{ render_form(form) }}
+                </div>
+                <div class="card-body">
+                    {{ render_form(file_form) }}
+                </div>
+                <table class="table table-hover table-bordered">
+                    <tr>
+                        <th>相关文件</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                {% for file in files_list %}
+                    <tr>
+                        <th>{{ file }}</th>
+                        <th><a href="{{ url_for('user.open_file', id=apply.id,filename=file) }}">下载</a></th>
+                        <th><a href="{{ url_for('user.delete_file', id=apply.id, filename=file) }}">删除</a><br></th>
+                    </tr>
+                {% endfor %}
+                </table>
+            </div>
+            <div class="col-md-6">
+                <div class="card-body">
+                    {% include 'user/_comment.html' %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

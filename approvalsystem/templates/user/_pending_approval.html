@@ -1,0 +1,42 @@
+<div class="jumbotron">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card-header"><h4>待审批</h4></div>
+            <table class="table table-hover">
+                <tr>
+                    <th>ID</th>
+                    <th>项目名</th>
+                    <th>审批状态</th>
+                    <th>申请人</th>
+                    <th>申请时间</th>
+                    <th>学院</th>
+                    <th>审批操作</th>
+                </tr>
+    {% if teacher_apply %}
+        {% for i in teacher_apply %}
+                <tr>
+                    <td> {{ i.id }} </td>
+                    <td><a href="{{ url_for('teacher.pending_approval_id',id=i.id) }}"> {{ i.name }} </a></td>
+                    <td> {{ i.status.name }} </td>
+                    <td> {{ i.user.name }} </td>
+                    <td> {{ i.last_time or '' }} </td>
+                    <form action="" method="POST">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <td>
+                            <select class="form-control" name="c_id">
+                                {% if college %}
+                                    {% for j in college %}
+                                    <option value="{{ j.id }}">{{ j.name }}</option>
+                                    {% endfor %}
+                                {% endif %}
+                            </select>
+                        </td>
+                        <td><button type="submit" class="btn btn-success" name="id" value="{{ i.id }}">通过</button></td>
+                    </form>
+                </tr>
+        {% endfor %}
+    {% endif %}
+            </table>
+        </div>
+    </div>
+</div>

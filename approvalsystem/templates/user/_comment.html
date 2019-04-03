@@ -1,0 +1,45 @@
+{% from 'bootstrap/form.html' import render_form %}
+<div class="comments" id="comments">
+    {% if comments %}
+        {% for comment in comments %}
+            <div class="comment">
+                <div class="comment-body">
+                    <h6>
+                        <a class="profile-popover">{{ comment.author.name }}</a>
+                        <span class="badge badge-light">{{ comment.author.role.name }}</span>
+                        <small data-toggle="tooltip" data-placement="top" data-timestamp="{{ comment.timestamp }}" data-delay="500">
+                            {{ moment(comment.timestamp).fromNow(refresh=True) }}
+                        </small>
+
+                        {% if current_user.is_authenticated and current_user.id == comment.author_id %}
+                            <span class="float-right">
+                                <span class="dropdown">
+                                    <button class="btn btn-sm btn-light" type="button" id="dropdownMenuButton"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span class="oi oi-ellipses"></span>
+                                    </button>
+                                    <span class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    {% if current_user == comment.author %}
+                                        <a class="dropdown-item" href="{{ url_for('user.delete_comment', comment_id=comment.id) }}">
+                                            <span class="oi oi-trash" aria-hidden="true"></span>删除
+                                        </a>
+                                    {% endif %}
+                                    </span>
+                                </span>
+                            </span>
+                        {% endif %}
+                    </h6>
+                    <p>{{ comment.body }}</p>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p class="tip">没有评论</p>
+    {% endif %}
+    <hr>
+    <div class="comment-form-area">
+        <div class="comment-form" id="comment-form">
+            {{ render_form(comment_form) }}
+        </div>
+    </div>
+</div>

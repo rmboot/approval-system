@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{#{% from 'bootstrap/form.html' import render_form %}#}
+{% block title %}Pending Approval {{ apply.id }}{% endblock %}
+{% block content%}
+    <div class="jumbotron">
+        <div class="row">
+            <div class="card-header">
+                <h4>{{ apply.name }}-{{ apply.user.name }}</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card-body">
+                <table class="table table-hover table-bordered">
+                <tr>
+                    <th>相关文件</th>
+                    <th></th>
+                </tr>
+                {% for file in files_list %}
+                    <tr>
+                        <th>{{ file }}</th>
+                        <th><a href="{{ url_for('teacher.open_file',number=apply.user.number, id=apply.id,filename=file) }}">下载</a></th>
+                    </tr>
+                {% endfor %}
+            </table>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card-body">
+                    {% include 'user/_comment.html' %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
