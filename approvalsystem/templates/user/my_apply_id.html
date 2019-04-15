@@ -3,35 +3,55 @@
 {% block title %}My Apply {{ apply.id }}{% endblock %}
 {% block content%}
     <div class="jumbotron">
-        <div class="card-header text-center"><h4>{{ apply.name }}</h4></div>
+        {% if apply.status.id%2 == 0 %}
+            <div class="card-header text-center">
+                <h4 class="text-danger">{{ apply.name }} - {{ apply.status.name }}</h4>
+            </div>
+        {% else %}
+            <div class="card-header text-center"><h4>{{ apply.name }}</h4></div>
+        {% endif %}
         <div class="row">
             <div class="col-md-6">
                 <div class="card-body">
                     {{ render_form(form) }}
                 </div>
-                <div class="card-body">
-                    {{ render_form(file_form) }}
-                </div>
                 <table class="table table-hover table-bordered">
                     <tr>
-                        <th>相关文件</th>
-                        <th></th>
-                        <th></th>
+                        <th colspan="3">相关文件</th>
                     </tr>
+            {% if files_list %}
                 {% for file in files_list %}
                     <tr>
-                        <th>{{ file }}</th>
-                        <th><a href="{{ url_for('user.open_file', id=apply.id,filename=file) }}">下载</a></th>
-                        <th><a href="{{ url_for('user.delete_file', id=apply.id, filename=file) }}">删除</a><br></th>
+                        <td>{{ file }}</td>
+                        <td><a href="{{ url_for('user.open_file', inner_path=apply.inner_path,filename=file) }}">下载</a></td>
+                        <td><a href="{{ url_for('user.delete_file', inner_path=apply.inner_path, filename=file) }}">删除</a><br></td>
                     </tr>
                 {% endfor %}
+            {% else %}
+                    <tr>
+                        <td colspan="3">无相关文件</td>
+                    </tr>
+            {% endif %}
                 </table>
             </div>
             <div class="col-md-6">
+                <div class="card-body">
+                    {{ render_form(file_form) }}
+                </div>
+                {% if reapply_form %}
+                    <div class="card-body">
+                        {{ render_form(reapply_form) }}
+                    </div>
+                {% endif %}
                 <div class="card-body">
                     {% include 'user/_comment.html' %}
                 </div>
             </div>
         </div>
     </div>
+{% endblock %}
+{% block scripts %}
+    {{ super() }}
+    <script type="text/javascript" src="{{ url_for('static', filename='ckeditor/ckeditor.js') }}"></script>
+    {{ ckeditor.config(name='info', height='300') }}
 {% endblock %}

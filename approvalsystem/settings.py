@@ -15,6 +15,9 @@ class BaseConfig:
     SECRET_KEY = os.urandom(24)
     BOOTSTRAP_SERVE_LOCAL = True
     UPLOADED_ARCHIVES_DEST = basedir + '/uploads/'
+    CKEDITOR_ENABLE_CSRF = True
+    CKEDITOR_FILE_UPLOADER = 'user.upload_image'
+    CKEDITOR_HEIGHT = '100'
 
 
 class DevelopmentConfig(BaseConfig):

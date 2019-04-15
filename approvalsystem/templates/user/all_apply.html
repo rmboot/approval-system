@@ -5,11 +5,10 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="card-header"><h4>审批列表</h4></div>
-                <table class="table table-hover table-bordered" style="white-space:nowrap">
+                <table class="table table-hover table-bordered">
                     <tr>
                         <th>ID</th>
                         <th>项目名</th>
-                        <th>审批状态ID</th>
                         <th>审批状态</th>
                         <th>申请人</th>
                         <th>学院审批单位</th>
@@ -19,14 +18,15 @@
                     </tr>
         {% if apply %}
             {% for i in apply %}
+                {% if i.status.id%2 == 0 %}
+                    <tr class="table-danger">
+                {% elif i.status.id == 7 %}
+                    <tr class="table-success">
+                {% else %}
                     <tr>
+                {% endif %}
                         <td> {{ i.id }} </td>
-{#                        <td>#}
-{#                            {{ url }} = {{ url_for('uploads/'+i.user.number +'/'+'1', filename=i.file_hash) }}#}
-{#                            <a href="{{ url }}"> {{ i.name }} </a>#}
-{#                        </td>#}
                         <td> {{ i.name }} </td>
-                        <td> {{ i.status_id }} </td>
                         <td> {{ i.status.name }} </td>
                         <td> {{ i.user.name }} </td>
                         <td> {{ i.user.dept.name }} </td>
@@ -37,7 +37,31 @@
             {% endfor %}
         {% endif %}
                 </table>
+                <ul class="pagination pagination-sm">
+                {% if paginate.has_prev %}
+                    <li class="page-item">
+                {% else %}
+                    <li class="page-item disabled">
+                {% endif %}
+                    <a class="page-link" href="{{ url_for('user.all_apply',page=paginate.prev_num) }}">上一页</a>
+                    </li>
+                {% for i in paginate.iter_pages() %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('user.all_apply',page=i) }}">{{ i }}</a>
+                    </li>
+                {% endfor %}
+                {% if paginate.has_next %}
+                    <li class="page-item">
+                {% else %}
+                    <li class="page-item disabled">
+                {% endif %}
+                    <a class="page-link" href="{{ url_for('user.all_apply',page=paginate.next_num) }}">下一页</a>
+                    </li>
+                </ul>
             </div>
+            {#当前页数:{{ paginate.page }}#}
+            {#总页数:{{ paginate.pages }}#}
+            {#共{{ paginate.total }}条数据#}
         </div>
     </div>
 {% endblock %}

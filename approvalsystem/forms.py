@@ -1,5 +1,6 @@
 from flask_login import current_user
 from flask_wtf import FlaskForm
+from flask_ckeditor import CKEditorField
 from flask_wtf.file import FileField, FileAllowed, FileRequired
 from wtforms import StringField, SubmitField, BooleanField, PasswordField, SelectField, TextAreaField
 from wtforms.validators import DataRequired, Regexp, Length, EqualTo, ValidationError
@@ -19,6 +20,7 @@ class RegisterForm(FlaskForm):
     number = StringField('学号', validators=[DataRequired(), Length(1, 12), Regexp('^[0-9]*$', message='学号只能包含0-9')])
     name = StringField('姓名', validators=[DataRequired(), Length(1, 60)])
     dept_id = SelectField('学院', coerce=int, validators=[DataRequired()])
+    phone = StringField('手机号', validators=[DataRequired(), Length(11, 11)])
     password = PasswordField('密码', validators=[DataRequired(), Length(1, 100), EqualTo('password1')])
     password1 = PasswordField('确认密码', validators=[DataRequired(), Length(1, 100)])
     submit = SubmitField('注册')
@@ -37,6 +39,7 @@ class RegisterAdminForm(FlaskForm):
     name = StringField('姓名', validators=[DataRequired(), Length(1, 60)])
     dept_id = SelectField('学院/部门', coerce=int, validators=[DataRequired()])
     role_id = SelectField('角色', coerce=int, validators=[DataRequired()])
+    phone = StringField('手机号', validators=[DataRequired(), Length(11, 11)])
     password = PasswordField('密码', validators=[DataRequired(), Length(1, 100), EqualTo('password1')])
     password1 = PasswordField('确认密码', validators=[DataRequired(), Length(1, 100)])
     submit = SubmitField('注册')
@@ -44,7 +47,7 @@ class RegisterAdminForm(FlaskForm):
     def __init__(self, *args, **kwargs):
         super(RegisterAdminForm, self).__init__(*args, **kwargs)
         self.dept_id.choices = [(dept.id, dept.name) for dept in Dept.query.order_by(Dept.id.desc()).all()]
-        self.role_id.choices = [(role.id, role.name) for role in Role.query.filter(Role.id > 1).all()]
+        self.role_id.choices = [(role.id, role.info) for role in Role.query.filter(Role.id > 1).all()]
 
     def validate_number(self, field):
         if Users.query.filter_by(number=field.data).first():
@@ -55,7 +58,7 @@ class SettingForm(FlaskForm):
     number = StringField('学号/工号', validators=[DataRequired(), Length(8, 12), Regexp('^[0-9]*$', message='学号/工号只能包含0-9')])
     name = StringField('姓名', validators=[DataRequired(), Length(1, 60)])
     dept_id = SelectField('学院', coerce=int, validators=[DataRequired()])
-    phone = StringField('手机号', validators=[DataRequired(), Length(1, 12)])
+    phone = StringField('手机号', validators=[DataRequired(), Length(11, 11)])
     submit = SubmitField('提交')
 
     def __init__(self, *args, **kwargs):
@@ -85,6 +88,7 @@ class PasswordForm(FlaskForm):
 
 class ApplyFormBase(FlaskForm):
     name = StringField('项目名', validators=[DataRequired(), Length(1, 60)])
+    info = CKEditorField('项目描述', validators=[DataRequired()])
     file = FileField('项目文件', render_kw={'multiple': 'multiple'}, validators=[
         FileRequired(), FileAllowed(archives, '必须为压缩文件')
     ])
@@ -99,20 +103,21 @@ class ApplyForm(ApplyFormBase):
                              Users.query.filter(Users.dept_id == current_user.dept_id, Users.role_id == 2).all()]
 
 
-class MyApplyForm(ApplyForm):
-    file, submit = None, None
+class ReApplyForm(ApplyForm):
+    name, info, file, submit = None, None, None, None
+    submit0 = SubmitField('重新申请')
+
+
+class MyApplyForm(ApplyFormBase):
+    file, t_id, submit = None, None, None
     submit1 = SubmitField('立即更改')
 
 
 class FileApplyForm(ApplyFormBase):
-    name, submit, t_id = None, None, None
+    name, info, t_id, submit = None, None, None, None
     submit2 = SubmitField('立即上传')
 
 
 class CommentForm(FlaskForm):
     body = TextAreaField('', validators=[DataRequired()])
     submit3 = SubmitField('提交评论')
-
-
-class ApprovalForm(FlaskForm):
-    pass

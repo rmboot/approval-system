@@ -11,7 +11,7 @@ from approvalsystem.blueprints.college import college
 from approvalsystem.blueprints.school import school
 from approvalsystem.blueprints.teacher import teacher
 from approvalsystem.blueprints.user import user
-from approvalsystem.extensions import bootstrap, db, login_manager, principals, archives, csrf, moment
+from approvalsystem.extensions import bootstrap, ckeditor, db, login_manager, principals, archives, csrf, moment
 from approvalsystem.settings import config
 
 
@@ -31,6 +31,7 @@ def create_app(config_name=None):
 
 def register_extensions(app):
     bootstrap.init_app(app)
+    ckeditor.init_app(app)
     db.init_app(app)
     login_manager.init_app(app)
     principals.init_app(app)

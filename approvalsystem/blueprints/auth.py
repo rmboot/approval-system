@@ -41,8 +41,9 @@ def register():
         number = form.number.data
         name = form.name.data
         dept_id = form.dept_id.data
+        phone = form.phone.data
         password = form.password.data
-        user = Users(number=number, name=name, dept_id=dept_id, role_id=1)
+        user = Users(number=number, name=name, dept_id=dept_id, phone=phone,role_id=1)
         user.set_password(password)
         db.session.add(user)
         db.session.commit()
@@ -61,8 +62,9 @@ def register_admin():
         name = form.name.data
         dept_id = form.dept_id.data
         role_id = form.role_id.data
+        phone = form.phone.data
         password = form.password.data
-        user = Users(number=number, name=name, dept_id=dept_id, role_id=role_id)
+        user = Users(number=number, name=name, dept_id=dept_id, role_id=role_id, phone=phone)
         user.set_password(password)
         db.session.add(user)
         db.session.commit()

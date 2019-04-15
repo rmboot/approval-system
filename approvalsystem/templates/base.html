@@ -7,10 +7,6 @@
     <title>{% block title %}{% endblock %}-实验室项目审批系统</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='open-iconic/font/css/open-iconic-bootstrap.css') }}">
-    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
-	<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
-    {{ moment.include_moment(local_js=url_for('static', filename='js/moment-with-locales.min.js')) }}
 </head>
 <body>
     {% block navbar %}
@@ -30,6 +26,7 @@
                     <a class="nav-link" href="{{ url_for('user.my_apply') }}">我的申请</a>
                 {% else %}
                     <a class="nav-link" href="{{ url_for(current_user.role.name+'.pending_approval') }}">待审批</a>
+                    <a class="nav-link" href="{{ url_for(current_user.role.name+'.approved') }}">已审批</a>
                 {% endif %}
                 {% endif %}
                 </div>
@@ -83,5 +80,11 @@
     </div>
     </main>
     <div id="toast"></div>
+{% block scripts %}
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    {{ moment.include_moment(local_js=url_for('static', filename='js/moment-with-locales.min.js')) }}
+{% endblock %}
 </body>
 </html>

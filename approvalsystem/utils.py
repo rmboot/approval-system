@@ -1,5 +1,5 @@
-import hashlib
 import time
+import hashlib
 
 from flask import flash, request, current_app
 from flask_login import current_user
@@ -26,3 +26,9 @@ def upload_file(last_time, id=None, name='file'):
         hash_name = hashlib.md5((str(time.time()) + file.filename).encode('UTF-8')).hexdigest()[:5]
         file_name = last_time.replace(':', '-') + '_' + hash_name + '.'
         archives.save(file, folder=path(number=current_user.number, id=id), name=file_name)
+
+# def upload_img(id=None, name='upload'):
+#     for file in request.files.getlist(name):
+#         hash_name = hashlib.md5((str(time.time()) + file.filename).encode('UTF-8')).hexdigest()[:5]
+#         file_name = hash_name + '.'
+#         archives.save(file, folder=path(number=current_user.number, id=id), name=file_name)

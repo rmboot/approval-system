@@ -1,4 +1,5 @@
 from flask_bootstrap import Bootstrap
+from flask_ckeditor import CKEditor
 from flask_login import LoginManager
 from flask_moment import Moment
 from flask_principal import Principal, Permission, RoleNeed
@@ -7,6 +8,7 @@ from flask_uploads import UploadSet, ARCHIVES
 from flask_wtf import CSRFProtect
 
 bootstrap = Bootstrap()
+ckeditor = CKEditor()
 db = SQLAlchemy()
 login_manager = LoginManager()
 moment = Moment()

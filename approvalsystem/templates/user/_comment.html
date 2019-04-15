@@ -1,4 +1,31 @@
 {% from 'bootstrap/form.html' import render_form %}
+<table class="table table-hover table-bordered">
+    <tr>
+        <th>手机号</th><th>身份</th><th>姓名</th>
+    </tr>
+    <tr>
+        <td>{{ apply.user.phone }}</td><td>学生</td><td>{{ apply.user.name }}</td>
+    </tr>
+    {% if apply.t_id %}
+    <tr>
+        <td>{{ apply.teacher.phone }}</td><td>导师</td><td>{{ apply.teacher.name }}</td>
+    </tr>
+    {% endif %}
+    {% if apply.c_id %}
+    <tr>
+        <td>{{ apply.college.phone }}</td><td>学院</td><td>{{ apply.college.name }}</td>
+    </tr>
+    {% endif %}
+    {% if apply.s_id %}
+    <tr>
+        <td>{{ apply.school.phone }}</td><td>学校</td><td>{{ apply.school.name }}</td>
+    </tr>
+    {% endif %}
+    <tr>
+        <th colspan="3">留言评论</th>
+    </tr>
+</table>
+<div class="card-body">
 <div class="comments" id="comments">
     {% if comments %}
         {% for comment in comments %}
@@ -42,4 +69,5 @@
             {{ render_form(comment_form) }}
         </div>
     </div>
+</div>
 </div>

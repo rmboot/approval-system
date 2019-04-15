@@ -18,7 +18,13 @@
                     </tr>
         {% if my_apply %}
             {% for i in my_apply %}
+                {% if i.status.id%2 == 0 %}
+                    <tr class="table-danger">
+                {% elif i.status.id == 7 %}
+                    <tr class="table-success">
+                {% else %}
                     <tr>
+                {% endif %}
                         <td> {{ i.id }} </td>
                         <td><a href="{{ url_for('user.my_apply_id',id=i.id) }}"> {{ i.name }} </a></td>
                         <td> {{ i.status.name }} </td>
