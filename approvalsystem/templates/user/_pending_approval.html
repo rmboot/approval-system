@@ -8,30 +8,37 @@
                     <th>项目名</th>
                     <th>审批状态</th>
                     <th>申请人</th>
-                    <th>申请时间</th>
-                    <th>学院</th>
+                    <th>最后修改时间</th>
+                {% if next %}
+                    <th>{{ next[0].role.info }}</th>
+                 {% endif %}
                     <th>审批操作</th>
                 </tr>
-    {% if teacher_apply %}
-        {% for i in teacher_apply %}
+    {% if apply %}
+        {% for i in apply %}
                 <tr>
                     <td> {{ i.id }} </td>
-                    <td><a href="{{ url_for('teacher.pending_approval_id',id=i.id) }}"> {{ i.name }} </a></td>
+                    <td><a href="{{ url_for(current_user.role.name+'.pending_approval_id',id=i.id) }}"> {{ i.name }} </a></td>
                     <td> {{ i.status.name }} </td>
                     <td> {{ i.user.name }} </td>
                     <td> {{ i.last_time or '' }} </td>
                     <form action="" method="POST">
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    {% if next %}
                         <td>
-                            <select class="form-control" name="c_id">
-                                {% if college %}
-                                    {% for j in college %}
+                            <select class="form-control" name="next_id">
+
+                                    {% for j in next %}
                                     <option value="{{ j.id }}">{{ j.name }}</option>
                                     {% endfor %}
-                                {% endif %}
+
                             </select>
                         </td>
-                        <td><button type="submit" class="btn btn-success" name="id" value="{{ i.id }}">通过</button></td>
+                    {% endif %}
+                        <td>
+                            <button type="submit" class="btn btn-success" name="pass_id" value="{{ i.id }}">通过</button>
+                            <button type="submit" class="btn btn-danger" name="reject_id" value="{{ i.id }}">拒绝</button>
+                        </td>
                     </form>
                 </tr>
         {% endfor %}
