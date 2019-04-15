@@ -4,9 +4,7 @@
 
 ![all_apply](https://cos.rmboot.com/approvalsystem/all_apply.png)
 
-![all_apply](https://cos.rmboot.com/approvalsystem/pending_approval.png)
-
-![all_apply](https://cos.rmboot.com/approvalsystem/my_apply_id.png)
+![my_apply_id](https://cos.rmboot.com/approvalsystem/my_apply_id.png)
 
 ## 安装相关库
 ```
@@ -46,9 +44,11 @@ $ pipenv install --pypi-mirror https://pypi.tuna.tsinghua.edu.cn/simple
 ```
 或者去看一下[Pipenv借助系统环境变量设置国内源](https://zhuanlan.zhihu.com/p/58758752)
 
-![all_apply](https://cos.rmboot.com/approvalsystem/apply.png)
+![pending_approval](https://cos.rmboot.com/approvalsystem/pending_approval.png)
 
-![all_apply](https://cos.rmboot.com/approvalsystem/pending_approval_id.png)
+![apply](https://cos.rmboot.com/approvalsystem/apply.png)
+
+![pending_approval_id](https://cos.rmboot.com/approvalsystem/pending_approval_id.png)
 
 ## License
 
