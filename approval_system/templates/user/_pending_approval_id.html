@@ -1,0 +1,32 @@
+<div class="jumbotron">
+    <div class="card-header text-center">
+        <h4>{{ apply.name }}-{{ apply.user.name }}</h4>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <table class="table table-hover table-bordered"><tr><th>项目描述</th></tr></table>
+            <div class="card-body">{{ apply.info | safe }}</div>
+            <div></div>
+            <table class="table table-hover table-bordered">
+            <tr>
+                <th colspan="2">相关文件</th>
+            </tr>
+    {% if files_list %}
+        {% for file in files_list %}
+            <tr>
+                <td>{{ file }}</td>
+                <td><a href="{{ url_for('user.open_file',inner_path=apply.inner_path,filename=file) }}">下载</a></td>
+            </tr>
+        {% endfor %}
+    {% else %}
+            <tr>
+                <td colspan="2">无相关文件</td>
+            </tr>
+    {% endif %}
+            </table>
+        </div>
+        <div class="col-md-6">
+            {% include 'user/_comment.html' %}
+        </div>
+    </div>
+</div>

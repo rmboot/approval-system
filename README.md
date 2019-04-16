@@ -2,9 +2,9 @@
 
 相关截图(文末还有)
 
-![all_apply](https://cos.rmboot.com/approvalsystem/all_apply.png)
+![all_apply](https://cos.rmboot.com/approval-system/all_apply.png)
 
-![my_apply_id](https://cos.rmboot.com/approvalsystem/my_apply_id.png)
+![my_apply_id](https://cos.rmboot.com/approval-system/my_apply_id.png)
 
 ## 安装相关库
 ```
@@ -22,7 +22,7 @@ $ python manage.py db upgrade
 ## 初始化role,status,dept表
 在数据库控制台执行[init.sql](init.sql)的语句
 ## 初始化users表
-###### 1.取消[user.py](approvalsystem\blueprints\user.py)文件视图函数index的注释，执行
+###### 1.取消[user.py](./approval_system/blueprints/user.py)文件视图函数index的注释，执行
 ```
 $ flask run
 * Running on http://127.0.0.1:5000/
@@ -44,11 +44,11 @@ $ pipenv install --pypi-mirror https://pypi.tuna.tsinghua.edu.cn/simple
 ```
 或者去看一下[Pipenv借助系统环境变量设置国内源](https://zhuanlan.zhihu.com/p/58758752)
 
-![pending_approval](https://cos.rmboot.com/approvalsystem/pending_approval.png)
+![pending_approval](https://cos.rmboot.com/approval-system/pending_approval.png)
 
-![apply](https://cos.rmboot.com/approvalsystem/apply.png)
+![apply](https://cos.rmboot.com/approval-system/apply.png)
 
-![pending_approval_id](https://cos.rmboot.com/approvalsystem/pending_approval_id.png)
+![pending_approval_id](https://cos.rmboot.com/approval-system/pending_approval_id.png)
 
 ## License
 

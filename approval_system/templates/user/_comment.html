@@ -1,0 +1,73 @@
+{% from 'bootstrap/form.html' import render_form %}
+<table class="table table-hover table-bordered">
+    <tr>
+        <th>手机号</th><th>身份</th><th>姓名</th>
+    </tr>
+    <tr>
+        <td>{{ apply.user.phone }}</td><td>学生</td><td>{{ apply.user.name }}</td>
+    </tr>
+    {% if apply.t_id %}
+    <tr>
+        <td>{{ apply.teacher.phone }}</td><td>导师</td><td>{{ apply.teacher.name }}</td>
+    </tr>
+    {% endif %}
+    {% if apply.c_id %}
+    <tr>
+        <td>{{ apply.college.phone }}</td><td>学院</td><td>{{ apply.college.name }}</td>
+    </tr>
+    {% endif %}
+    {% if apply.s_id %}
+    <tr>
+        <td>{{ apply.school.phone }}</td><td>学校</td><td>{{ apply.school.name }}</td>
+    </tr>
+    {% endif %}
+    <tr>
+        <th colspan="3">留言评论</th>
+    </tr>
+</table>
+<div class="card-body">
+<div class="comments" id="comments">
+    {% if comments %}
+        {% for comment in comments %}
+            <div class="comment">
+                <div class="comment-body">
+                    <h6>
+                        <a class="profile-popover">{{ comment.author.name }}</a>
+                        <span class="badge badge-light">{{ comment.author.role.name }}</span>
+                        <small data-toggle="tooltip" data-placement="top" data-timestamp="{{ comment.timestamp }}" data-delay="500">
+                            {{ moment(comment.timestamp).fromNow(refresh=True) }}
+                        </small>
+
+                        {% if current_user.is_authenticated and current_user.id == comment.author_id %}
+                            <span class="float-right">
+                                <span class="dropdown">
+                                    <button class="btn btn-sm btn-light" type="button" id="dropdownMenuButton"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span class="oi oi-ellipses"></span>
+                                    </button>
+                                    <span class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    {% if current_user == comment.author %}
+                                        <a class="dropdown-item" href="{{ url_for('user.delete_comment', comment_id=comment.id) }}">
+                                            <span class="oi oi-trash" aria-hidden="true"></span>删除
+                                        </a>
+                                    {% endif %}
+                                    </span>
+                                </span>
+                            </span>
+                        {% endif %}
+                    </h6>
+                    <p>{{ comment.body }}</p>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p class="tip">没有评论</p>
+    {% endif %}
+    <hr>
+    <div class="comment-form-area">
+        <div class="comment-form" id="comment-form">
+            {{ render_form(comment_form) }}
+        </div>
+    </div>
+</div>
+</div>

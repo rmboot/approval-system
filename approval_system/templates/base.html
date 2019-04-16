@@ -1,0 +1,90 @@
+{% from 'bootstrap/nav.html' import render_nav_item %}
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <title>{% block title %}{% endblock %}-实验室项目审批系统</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='open-iconic/font/css/open-iconic-bootstrap.css') }}">
+</head>
+<body>
+    {% block navbar %}
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="{{ url_for('user.index') }}">实验室项目审批系统</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse">
+                <div class="navbar-nav mr-auto">
+                    <a class="nav-link" href="{{ url_for('user.index') }}">主页</a>
+                    <a class="nav-link" href="{{ url_for('user.all_apply') }}">审批列表</a>
+                {% if current_user.is_authenticated %}
+                {% if current_user.role_id == 1 %}
+                    <a class="nav-link" href="{{ url_for('user.apply') }}">申请项目</a>
+                    <a class="nav-link" href="{{ url_for('user.my_apply') }}">我的申请</a>
+                {% else %}
+                    <a class="nav-link" href="{{ url_for(current_user.role.name+'.pending_approval') }}">待审批</a>
+                    <a class="nav-link" href="{{ url_for(current_user.role.name+'.approved') }}">已审批</a>
+                {% endif %}
+                {% endif %}
+                </div>
+                <div class="navbar-nav ml-auto">
+                {% if current_user.is_authenticated %}
+                    <div class="dropdown nav-item">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <span class="oi oi-person"></span>{{ current_user.name }}
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" role="menu">
+                            <a class="dropdown-item" href="{{ url_for('auth.setting') }}">
+                                <span class="oi oi-cog"></span> 修改信息
+                            </a>
+                            <a class="dropdown-item" href="{{ url_for('auth.password') }}">
+                                <span class="oi oi-lock-locked"></span> 更改密码
+                            </a>
+                        </div>
+                    </div>
+                    <a class="nav-link" href="{{ url_for('auth.logout') }}"><span class="oi oi-power-standby"></span>注销</a>
+                {% else %}
+                    <a class="nav-link" href="{{ url_for('auth.login') }}">登录</a>
+                    <a class="nav-link" href="{{ url_for('auth.register') }}">注册</a>
+                {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+    {% endblock %}
+    <main>
+        <div class="container">
+        {% for message in get_flashed_messages(with_categories=True) %}
+            <div class="alert alert-{{ message[0] }}">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                {{ message[1] }}
+            </div>
+        {% endfor %}
+        {% block content %}{% endblock %}
+        {% block footer %}
+            <footer>
+                <p class="float-left">
+                    <small>&copy; 2019
+                        <a href="https://rmboot.com" title="Written by Zhang Wang">Zhang Wang</a> -
+                        <a href="https://github.com/rmboot" title="Fork me on GitHub">GitHub</a>
+                    </small>
+                </p>
+                <p class="float-right">
+                    <small>实验室项目审批系统</small>
+                </p>
+            </footer>
+        {% endblock %}
+    </div>
+    </main>
+    <div id="toast"></div>
+{% block scripts %}
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    {{ moment.include_moment(local_js=url_for('static', filename='js/moment-with-locales.min.js')) }}
+{% endblock %}
+</body>
+</html>

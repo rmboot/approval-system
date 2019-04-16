@@ -1,8 +1,8 @@
 from flask_migrate import Migrate, MigrateCommand
 from flask_script import Manager
 
-from approvalsystem import create_app
-from approvalsystem.extensions import db
+from approval_system import create_app
+from approval_system.extensions import db
 
 app = create_app()
 
