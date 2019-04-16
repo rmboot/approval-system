@@ -26,7 +26,7 @@ $ python manage.py db upgrade
 ```
 ## 初始化role,status,dept表
 在数据库控制台执行[init.sql](init.sql)的SQL语句
-## 初始化users表
+## 初始化user表
 ###### 1.取消[user.py](./approval_system/blueprints/user.py)文件视图函数index的注释，执行
 ```
 $ flask run
