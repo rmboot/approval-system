@@ -13,14 +13,19 @@ $ cd approvalsystem
 $ pipenv install
 $ pipenv shell
 ```
+
 ## 初始化数据库
+
+[Mysql创建新用户并授权数据库权限](https://rmboot.com/2019/04/16/mysql-user-db/)
+
+## 模型映射到数据库
 ```
 $ python manage.py db init
 $ python manage.py db migrate
 $ python manage.py db upgrade
 ```
 ## 初始化role,status,dept表
-在数据库控制台执行[init.sql](init.sql)的语句
+在数据库控制台执行[init.sql](init.sql)的SQL语句
 ## 初始化users表
 ###### 1.取消[user.py](./approval_system/blueprints/user.py)文件视图函数index的注释，执行
 ```
