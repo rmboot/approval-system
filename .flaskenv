@@ -1,2 +1,2 @@
-FLASK_APP=approvalsystem
+FLASK_APP=approval_system
 FLASK_ENV=development
