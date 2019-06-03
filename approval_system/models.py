@@ -74,3 +74,13 @@ class Comment(db.Model):
     author = db.relationship('User', foreign_keys=[author_id])
     apply_id = db.Column(db.Integer, db.ForeignKey('apply.id'))
     apply = db.relationship('Apply', foreign_keys=[apply_id])
+
+
+class Notice(db.Model):
+    __tablename__ = 'notice'
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100), nullable=False)
+    body = db.Column(db.Text)
+    timestamp = db.Column(db.DateTime, default=datetime.now, index=True)
+    author_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    author = db.relationship('User', foreign_keys=[author_id])

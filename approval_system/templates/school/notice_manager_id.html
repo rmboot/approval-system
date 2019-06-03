@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% from 'bootstrap/form.html' import render_form %}
+{% block title %}My Notice{% endblock %}
+{% block content%}
+    <div class="jumbotron">
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
+                <div class="card mb-3 w-100 bg-light">
+                    <div class="card-header"><h4>修改公告</h4></div>
+                    <div class="card-body">
+                        {{ render_form(form) }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+    {{ super() }}
+    <script type="text/javascript" src="{{ url_for('static', filename='ckeditor/ckeditor.js') }}"></script>
+    {{ ckeditor.config(name='info') }}
+{% endblock %}

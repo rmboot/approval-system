@@ -17,7 +17,7 @@ class LoginForm(FlaskForm):
 
 
 class RegisterForm(FlaskForm):
-    number = StringField('学号', validators=[DataRequired(), Length(1, 12), Regexp('^[0-9]*$', message='学号只能包含0-9')])
+    number = StringField('学号', validators=[DataRequired(), Length(12, 12), Regexp('^[0-9]*$', message='学号只能包含0-9')])
     name = StringField('姓名', validators=[DataRequired(), Length(1, 60)])
     dept_id = SelectField('学院', coerce=int, validators=[DataRequired()])
     phone = StringField('手机号', validators=[DataRequired(), Length(11, 11)])
@@ -35,7 +35,7 @@ class RegisterForm(FlaskForm):
 
 
 class RegisterAdminForm(FlaskForm):
-    number = StringField('工号', validators=[DataRequired(), Length(1, 12), Regexp('^[0-9]*$', message='工号只能包含0-9')])
+    number = StringField('工号', validators=[DataRequired(), Length(8, 8), Regexp('^[0-9]*$', message='工号只能包含0-9')])
     name = StringField('姓名', validators=[DataRequired(), Length(1, 60)])
     dept_id = SelectField('学院/部门', coerce=int, validators=[DataRequired()])
     role_id = SelectField('角色', coerce=int, validators=[DataRequired()])
@@ -121,3 +121,25 @@ class FileApplyForm(ApplyFormBase):
 class CommentForm(FlaskForm):
     body = TextAreaField('', validators=[DataRequired()])
     submit3 = SubmitField('提交评论')
+
+
+class NoticeForm(FlaskForm):
+    title = StringField('标题', validators=[DataRequired(), Length(1, 100)])
+    body = CKEditorField('公告内容', validators=[DataRequired()])
+    submit = SubmitField('发布公告')
+
+
+class MyNoticeForm(FlaskForm):
+    title = StringField('标题', validators=[DataRequired(), Length(1, 100)])
+    body = CKEditorField('公告内容', validators=[DataRequired()])
+    submit = SubmitField('立即更改')
+
+
+class UserSearchForm(FlaskForm):
+    number = StringField('学号/工号', validators=[DataRequired(), Length(8, 12), Regexp('^[0-9]*$', message='学号/工号只能包含0-9')])
+    submit = SubmitField('搜索')
+
+
+class PasswordResetForm(FlaskForm):
+    new_password = StringField('密码', default='12345678', validators=[DataRequired(), Length(1, 100)])
+    submit1 = SubmitField('重置')

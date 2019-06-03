@@ -27,11 +27,19 @@
                 {% else %}
                     <a class="nav-link" href="{{ url_for(current_user.role.name+'.pending_approval') }}">待审批</a>
                     <a class="nav-link" href="{{ url_for(current_user.role.name+'.approved') }}">已审批</a>
+
                 {% endif %}
                 {% endif %}
                 </div>
                 <div class="navbar-nav ml-auto">
                 {% if current_user.is_authenticated %}
+                    {% if current_user.role_id == 4 %}
+                        <a class="nav-link" href="{{ url_for(current_user.role.name+'.publish_notice') }}">
+                            <span class="oi oi-plus"></span> 发布公告
+                        </a>
+                        <a class="nav-link" href="{{ url_for(current_user.role.name+'.notice_manager') }}">公告管理</a>
+                        <a class="nav-link" href="{{ url_for(current_user.role.name+'.user_manager') }}">用户管理</a>
+                    {% endif %}
                     <div class="dropdown nav-item">
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                         <span class="oi oi-person"></span>{{ current_user.name }}
@@ -43,9 +51,12 @@
                             <a class="dropdown-item" href="{{ url_for('auth.password') }}">
                                 <span class="oi oi-lock-locked"></span> 更改密码
                             </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{ url_for('auth.logout') }}">
+                                <span class="oi oi-power-standby"></span> 注销账户
+                            </a>
                         </div>
                     </div>
-                    <a class="nav-link" href="{{ url_for('auth.logout') }}"><span class="oi oi-power-standby"></span>注销</a>
                 {% else %}
                     <a class="nav-link" href="{{ url_for('auth.login') }}">登录</a>
                     <a class="nav-link" href="{{ url_for('auth.register') }}">注册</a>

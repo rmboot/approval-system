@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Notice-{{ notice.id }}{% endblock %}
+{% block content %}
+    <div class="jumbotron">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card-header  text-center"><h4> {{ notice.title }} </h4></div>
+                <div class="card-body">{{ notice.body | safe }}</div>
+                <span class="float-right">发布者：{{ notice.author.name }}</span>
+                <br>
+                <span class="float-right">发布时间：{{ notice.timestamp }}</span>
+            </div>
+        </div>
+    </div>
+{% endblock %}

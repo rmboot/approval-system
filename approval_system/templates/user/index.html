@@ -1,13 +1,14 @@
 {% extends "base.html" %}
 {% block title %}Index{% endblock %}
-{% block content%}
+{% block content %}
     <div class="jumbotron">
         <div class="row">
-            <div class="col-md-2"></div>
             <div class="col-md-8">
-                <img src="{{ url_for('static', filename='img/index.jpg') }}" class="rounded img-fluid">
+                {% include 'user/_notice.html' %}
             </div>
-            <div class="col-md-2"></div>
+            <div class="col-md-4">
+
+            </div>
         </div>
     </div>
 {% endblock %}

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% from 'bootstrap/form.html' import render_form %}
+{% block title %}User Manager{% endblock %}
+{% block content%}
+<div class="jumbotron">
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <div class="card mb-3 w-100 bg-light">
+                <div class="card-header"><h4>用户管理</h4></div>
+                <div class="card-body">
+                    {{ render_form(form) }}
+                </div>
+                {% if user %}
+                    <table class="table table-hover">
+                    <tr>
+                        <th>学号/工号</th>
+                        <th>用户名</th>
+                        <th>学院</th>
+                        <th>新密码</th>
+                        <th>重置密码</th>
+                    </tr>
+                    <tr>
+                        <td> {{ user.number }} </td>
+                        <td> {{ user.name }} </td>
+                        <td> {{ user.dept.name }} </td>
+                        <form action="" method="POST">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            <input type="hidden" name="user_id" value="{{ user.id }}">
+                            <td>{{ reset_form.new_password }}</td>
+                            <td>{{ reset_form.submit1 }}</td>
+                        </form>
+                    </tr>
+                </table>
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+</div>
+{% endblock %}

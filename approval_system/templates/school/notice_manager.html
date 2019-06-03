@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Notice Manager{% endblock %}
+{% block content%}
+<div class="jumbotron">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card-header"><h4>公告管理</h4></div>
+            <table class="table table-hover table-bordered">
+                <tr>
+                    <th>ID</th>
+                    <th>标题</th>
+                    <th>发布时间</th>
+                    <th>作者</th>
+                    <th>操作</th>
+                </tr>
+    {% if notice_all %}
+        {% for i in notice_all %}
+                <tr>
+                    <td> {{ i.id }} </td>
+                    <td><a href="{{ url_for('school.notice_manager_id',id=i.id) }}"> {{ i.title }} </a></td>
+                    <td> {{ i.timestamp }} </td>
+                    <td> {{ i.author.name }} </td>
+                    <form action="" method="POST">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <td>
+                            <button type="submit" class="btn btn-danger" name="notice_id" value="{{ i.id }}">删除</button>
+                        </td>
+                    </form>
+                </tr>
+        {% endfor %}
+    {% endif %}
+            </table>
+            <ul class="pagination pagination-sm">
+                {% if paginate.has_prev %}
+                    <li class="page-item">
+                {% else %}
+                    <li class="page-item disabled">
+                {% endif %}
+                    <a class="page-link" href="{{ url_for('school.notice_manager',page=paginate.prev_num) }}">上一页</a>
+                    </li>
+                {% for i in paginate.iter_pages() %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('school.notice_manager',page=i) }}">{{ i }}</a>
+                    </li>
+                {% endfor %}
+                {% if paginate.has_next %}
+                    <li class="page-item">
+                {% else %}
+                    <li class="page-item disabled">
+                {% endif %}
+                    <a class="page-link" href="{{ url_for('school.notice_manager',page=paginate.next_num) }}">下一页</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

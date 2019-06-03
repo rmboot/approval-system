@@ -7,7 +7,7 @@ from flask_ckeditor import upload_success, upload_fail
 
 from approval_system.extensions import db, archives, student_permission
 from approval_system.forms import ApplyForm, MyApplyForm, FileApplyForm, CommentForm, ReApplyForm
-from approval_system.models import Apply, Comment
+from approval_system.models import Apply, Comment, Notice
 from approval_system.utils import flash_errors, upload_file, file_path
 
 user = Blueprint('user', __name__)
@@ -15,6 +15,10 @@ user = Blueprint('user', __name__)
 
 @user.route('/')
 def index():
+    page = int(request.args.get('page', 1))
+    per_page = int(request.args.get('per_page', 8))
+    paginate = Notice.query.order_by(Notice.id.desc()).paginate(page, per_page, error_out=False)
+    notice = paginate.items
     # from approval_system.models import User
     # user1 = User(number='201508090009', name='Student1', dept_id=2, role_id=1, phone='10010001000')
     # user1.set_password('admin')
@@ -36,7 +40,13 @@ def index():
     # db.session.add(user6)
     # db.session.commit()
     # print('测试数据插入OK')
-    return render_template('user/index.html')
+    return render_template('user/index.html', paginate=paginate, notice=notice)
+
+
+@user.route('/notice/<int:id>/', methods=['GET', 'POST'])
+def notice_id(id):
+    notice = Notice.query.get_or_404(id)
+    return render_template('user/notice_id.html', notice=notice)
 
 
 @user.route('/all_apply/', methods=['GET'])
